@@ -28,7 +28,7 @@ while command != 'END':
         try:
             data_base[variable]
         except KeyError:
-            print('No such a value in db...')
+            print('No such value in db...')
 
         if is_transaction:
             print(data_base[variable][-1])
