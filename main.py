@@ -27,13 +27,12 @@ while command != 'END':
         variable = command[command.find(' ') + 1:]
         try:
             data_base[variable]
+            if is_transaction:
+                print(data_base[variable][-1])
+            else:
+                print(data_base[variable][0])
         except KeyError:
             print('No such value in db...')
-
-        if is_transaction:
-            print(data_base[variable][-1])
-        else:
-            print(data_base[variable][0])
 
     if command.startswith('UNSET'):
         variable = command[command.find(' ') + 1:]
@@ -53,12 +52,18 @@ while command != 'END':
         is_transaction = True
 
     if command.startswith('ROLLBACK'):
-        for key, value in data_base.items():
-            data_base[key] = [data_base[key][0]]
+        if is_transaction:
+            for key, value in data_base.items():
+                data_base[key] = [data_base[key][0]]
+        else:
+            print("BEGIN transaction prior to ROLLBACK")
 
     if command.startswith('COMMIT'):
-        for key, value in data_base.items():
-            data_base[key] = [data_base[key][-1]]
-        is_transaction = False
+        if is_transaction:
+            for key, value in data_base.items():
+                data_base[key] = [data_base[key][-1]]
+            is_transaction = False
+        else:
+            print("BEGIN transaction prior to COMMIT")
 
 
