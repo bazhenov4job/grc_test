@@ -32,7 +32,7 @@ while command != 'END':
             else:
                 print(data_base[variable][0])
         except KeyError:
-            print('No such value in db...')
+            print('NULL')
 
     if command.startswith('UNSET'):
         variable = command[command.find(' ') + 1:]
